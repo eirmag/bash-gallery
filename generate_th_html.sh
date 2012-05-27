@@ -208,7 +208,7 @@ append_header $index
 
 #(
 #IFS=$(echo -en "\n\b")
-for folder in $(ls -r *)
+for folder in $(ls --reverse)
 do
     if [[ -d "$folder" && $folder != "$th_dir" ]]
     then

@@ -23,6 +23,13 @@ Supported files (case sensitive :S):
     *.MOV
 
 == Installation ==
+
+On the gallery you want to expose:
+    * git init if it's not already a git repo
+    * git remote add origin git://github.com/eirmag/bash-gallery.git
+    * git pull origin master 
+    * you can now run the script
+
 Prior to install, modify the important elements:
 
 If you have a google analytics account, change your id and domain name in ga.js
