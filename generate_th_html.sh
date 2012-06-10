@@ -104,6 +104,11 @@ folder=$2 #folder containing pictures
 thfolder=$3 #folder where to generate th
 
 echo "" > $dest
+
+append_header $dst
+
+echo "<a href='..'>Return to homepage</a><br/>"  >> $dest
+
 log "$folder, chech existing th for the target:\n"
 for file in  $folder/*.JPG $folder/*.jpg; do
     [[ -e "$file" ]] || continue
@@ -162,6 +167,10 @@ EOF
 done
 log "\n"
 fi
+
+#end of file
+append_ga_script $dest
+append_footer $dest
 
 }
 
