@@ -44,7 +44,7 @@ htmlname=$1
 <br/><br/>
 </body>
 <footer style="text-align:center; font-size:small;" >
-    Generated on `LANG=C date  +'%b %d, %Y - %Hh%M'`. <a href="https://github.com/eirmag/bash-gallery">Bash Gallery</a>
+    Generated on `LANG=C date  +'%b %d, %Y - %Hh%M'`. Gabriel Serme
 </footer>
 </html>
 EOF
@@ -83,12 +83,19 @@ create_video_th(){
     target=$thfolder/$base.ogg
     if [ ! -e $target ]
     then
+        log "Create video th for $file\n"
         ffmpeg2theora -p padma $file -o $target
     else
-        echo "Th $target exists" >&2
+    #    log "Th $target exists"
+        log "."
     fi
     echo "$target"
 }
+
+log (){
+echo -ne "$1" >& 2
+}
+
 
 generate_pictures(){
 
@@ -97,19 +104,21 @@ folder=$2 #folder containing pictures
 thfolder=$3 #folder where to generate th
 
 echo "" > $dest
+log "$folder, chech existing th for the target:\n"
 for file in  $folder/*.JPG $folder/*.jpg; do
     [[ -e "$file" ]] || continue
 
-    echo $file >&2
     base=`basename $file .JPG`
     target=$thfolder/$base.JPG
     if [ ! -e $target ]
     then
+        log "Create th for $file\n"
         #reorient, then normalize size.
  #       convert -auto-orient $file $target
         convert -auto-orient -resize ${th_size}x${th_size}  $file $target 
     else
-        echo "Th $target exists" >&2
+        #echo "Th $target exists" >&2
+        log "."
     fi
 
     cat <<EOF >> $dest
@@ -119,6 +128,7 @@ for file in  $folder/*.JPG $folder/*.jpg; do
 EOF
 
 done
+log "\n"
 
 files=$(ls $folder/*.MOV)
 
@@ -129,10 +139,11 @@ cat <<EOF >> $dest
     <h1>Videos</h1>
 EOF
 
+log "$folder, chech existing video th for the target:\n"
 for file in  $files; do
     [[ -e "$file" ]] || continue
 
-    echo $file >&2
+    #log "Videos from $file: \n"
     base=`basename $file .MOV`
     oggf=$(create_video_th $file)
     s=$(get_size_file $file)
@@ -149,6 +160,7 @@ EOF
 
 
 done
+log "\n"
 fi
 
 }
@@ -208,11 +220,13 @@ append_header $index
 
 #(
 #IFS=$(echo -en "\n\b")
-for folder in $(ls --reverse)
+for folder in $(ls -dr *)
 do
+    log "############$folder#######\n"
     if [[ -d "$folder" && $folder != "$th_dir" ]]
     then
 #string=${string//Ö/&Ouml;}
+        log "-----Folder $folder -----\n"
         htmlname=$(generate_folder $folder)
         desc=""
         if [[ -e $folder.desc ]]
