@@ -60,7 +60,7 @@ then
 fi
 
 
-    cat <<EOF >> $htmlname
+    cat >> "$htmlname" <<EOF
 <html>
 <head>
 <title>$title</title>
@@ -105,7 +105,7 @@ thfolder=$3 #folder where to generate th
 
 echo "" > $dest
 
-append_header $dst
+append_header $dest
 
 echo "<a href='..'>Return to homepage</a><br/>"  >> $dest
 
