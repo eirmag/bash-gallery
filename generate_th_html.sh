@@ -113,14 +113,20 @@ log "$folder, chech existing th for the target:\n"
 for file in  $folder/*.JPG $folder/*.jpg; do
     [[ -e "$file" ]] || continue
 
-    base=`basename $file .JPG`
+    file=$(echo $file | recode "utf8..h")
+
+    base=`basename "$file" .JPG`
     target=$thfolder/$base.JPG
-    if [ ! -e $target ]
+
+    #target=$(echo $target | recode "utf8..h")
+    #log "$target\n"
+
+    if [ ! -e "$target" ]
     then
         log "Create th for $file\n"
         #reorient, then normalize size.
  #       convert -auto-orient $file $target
-        convert -auto-orient -resize ${th_size}x${th_size}  $file $target 
+        convert -auto-orient -resize ${th_size}x${th_size}  "$file" "$target"
     else
         #echo "Th $target exists" >&2
         log "."
