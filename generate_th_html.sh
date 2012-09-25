@@ -44,7 +44,7 @@ htmlname=$1
 <br/><br/>
 </body>
 <footer style="text-align:center; font-size:small;" >
-    Generated on `LANG=C date  +'%b %d, %Y - %Hh%M'`. Gabriel Serme
+    Generated on `LANG=C date  +'%b %d, %Y - %Hh%M'`. <a href="https://github.com/eirmag/bash-gallery">Bash Gallery</a> - Gabriel Serme
 </footer>
 </html>
 EOF
@@ -64,6 +64,48 @@ fi
 <html>
 <head>
 <title>$title</title>
+
+<!-- Add jQuery library -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+
+<!-- Add mousewheel plugin (this is optional) -->
+<script type="text/javascript" src="http://fancyapps.com/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/jquery.fancybox.css?v=2.1.0" type="text/css" media="screen" />
+<script type="text/javascript" src="http://fancyapps.com/fancybox/source/jquery.fancybox.pack.js?v=2.1.0"></script>
+
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.3" type="text/css" media="screen" />
+<script type="text/javascript" src="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.3"></script>
+<script type="text/javascript" src="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.3"></script>
+
+<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.6" type="text/css" media="screen" />
+<script type="text/javascript" src="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.6"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery(".fancybox").fancybox({
+        padding    : 0,
+        margin     : 20,
+        nextEffect : 'fade',
+        prevEffect : 'none',
+        autoCenter : true,
+        aspectRatio: true,
+        arrows     : true,
+        afterLoad  : function () {
+            $.extend(this, {
+                aspectRatio : true,
+                type    : 'html',
+                width   : '100%',
+                height  : '100%',
+                content : '<div class="fancybox-image" style="background-image:url(' + this.href + '); background-size: cover; background-position:50% 50%;background-repeat:no-repeat;height:100%;width:100%;" /></div>'
+            });
+        }
+    });
+    });
+</script>
+
 </head>
 <body>
 EOF
@@ -134,7 +176,7 @@ for file in  $folder/*.JPG $folder/*.jpg; do
 
     cat <<EOF >> $dest
     <div style="display:inline-block;">
-    <a href="$file"><img alt="$base" style="max-height: 150px; max-width: ${th_size}px"  src="$target"/></a>
+    <a class="fancybox" rel="group" href="$file"><img alt="$base" style="max-height: 150px; max-width: ${th_size}px"  src="$target"/></a>
     </div>
 EOF
 
