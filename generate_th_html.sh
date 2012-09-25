@@ -150,7 +150,7 @@ echo "" > $dest
 
 append_header $dest
 
-echo "<a href='..'>Return to homepage</a><br/>"  >> $dest
+echo "<a href='.'>Return to homepage</a><br/>"  >> $dest
 
 log "$folder, chech existing th for the target:\n"
 for file in  $folder/*.JPG $folder/*.jpg; do
