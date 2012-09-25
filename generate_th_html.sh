@@ -42,10 +42,10 @@ htmlname=$1
 
     cat <<EOF >> $htmlname
 <br/><br/>
-</body>
 <footer style="text-align:center; font-size:small;" >
     Generated on `LANG=C date  +'%b %d, %Y - %Hh%M'`. <a href="https://github.com/eirmag/bash-gallery">Bash Gallery</a> - Gabriel Serme
 </footer>
+</body>
 </html>
 EOF
 
@@ -61,6 +61,7 @@ fi
 
 
     cat >> "$htmlname" <<EOF
+<!DOCTYPE html>
 <html>
 <head>
 <title>$title</title>
@@ -238,8 +239,6 @@ mkdir -p $thfolder
 htmlname="photos-$folder.html"
 
 generate_pictures $htmlname $folder $thfolder
-
-append_ga_script $htmlname
 
 #return
 echo $htmlname
