@@ -4,6 +4,8 @@
 #b=20120416_PHOTO_RRC
 th_size=200
 th_video_size=400
+int_size=1920
+int_dir=int
 th_dir=th
 ga_script=ga.js
 extern_link=links.external
@@ -91,18 +93,8 @@ fi
         margin     : 20,
         nextEffect : 'fade',
         prevEffect : 'none',
-        autoCenter : true,
-        aspectRatio: true,
+        autoCenter : false,
         arrows     : true,
-        afterLoad  : function () {
-            $.extend(this, {
-                aspectRatio : true,
-                type    : 'html',
-                width   : '100%',
-                height  : '100%',
-                content : '<div class="fancybox-image" style="background-image:url(' + this.href + '); background-size: cover; background-position:50% 50%;background-repeat:no-repeat;height:100%;width:100%;" /></div>'
-            });
-        }
     });
     });
 </script>
@@ -122,7 +114,9 @@ create_video_th(){
     #create th of the video in ogg format only
     #send back (writting to standard ooutput) the th name
     file=$1
-    base=`basename $file .MOV`
+    base=`basename $file`
+    extension="${base##*.}"
+    base="${base%.*}"
     target=$thfolder/$base.ogg
     if [ ! -e $target ]
     then
@@ -145,6 +139,7 @@ generate_pictures(){
 dest=$1 #photos.2012.html for example
 folder=$2 #folder containing pictures
 thfolder=$3 #folder where to generate th
+intfolder=$4 #folder for better browsing experience
 
 echo "" > $dest
 
@@ -157,9 +152,21 @@ for file in  $folder/*.JPG $folder/*.jpg; do
     [[ -e "$file" ]] || continue
 
     file=$(echo $file | recode "utf8..h")
+    file_size=$(identify -format "%wx%h" $file)
+    file_width=${file_size%x*}
+    file_height=${file_size#*x}
+
 
     base=`basename "$file" .JPG`
     target=$thfolder/$base.JPG
+    inttarget=$intfolder/$base.JPG
+    #if the size of the original file is inferior to the size of the intermediate picture,
+    #we don't generate the intermediate picture and display the original picture instead
+    if (( ($file_width <= $int_size) || ($file_height <= $int_size) ))
+    then
+        log "file too small\n"
+        inttarget=$file
+    fi
 
     #target=$(echo $target | recode "utf8..h")
     #log "$target\n"
@@ -174,17 +181,27 @@ for file in  $folder/*.JPG $folder/*.jpg; do
         #echo "Th $target exists" >&2
         log "."
     fi
+    if [ ! -e "$inttarget" ] 
+    then
+        log "Create int for $file\n"
+        #reorient, then normalize size.
+ #       convert -auto-orient $file $target
+        convert -auto-orient -resize ${int_size}x${int_size}  "$file" "$inttarget"
+    else
+        log ":"
+    fi
+
 
     cat <<EOF >> $dest
     <div style="display:inline-block;">
-    <a class="fancybox" rel="group" href="$file"><img alt="$base" style="max-height: 150px; max-width: ${th_size}px"  src="$target"/></a>
+    <a class="fancybox" rel="group" href="$inttarget"><img alt="$base" style="max-height: 150px; max-width: ${th_size}px"  src="$target"/></a>
     </div>
 EOF
 
 done
 log "\n"
 
-files=$(ls $folder/*.MOV)
+files=$(ls $folder/*.MOV $folder/*.AVI)
 
 if [[ ${#files} -gt 0 ]] #first elem of the array as not a size of zero
 then
@@ -198,7 +215,7 @@ for file in  $files; do
     [[ -e "$file" ]] || continue
 
     #log "Videos from $file: \n"
-    base=`basename $file .MOV`
+    base=`basename $file`
     oggf=$(create_video_th $file)
     s=$(get_size_file $file)
 
@@ -233,12 +250,13 @@ if [ -z "$1" ]                           # Is parameter #1 zero length?
 
 folder=$1
 thfolder=$th_dir/$folder
+intfolder=$int_dir/$folder
 
-mkdir -p $thfolder
+mkdir -p $thfolder $intfolder
 
 htmlname="photos-$folder.html"
 
-generate_pictures $htmlname $folder $thfolder
+generate_pictures $htmlname $folder $thfolder $intfolder
 
 #return
 echo $htmlname
@@ -279,7 +297,7 @@ append_header $index
 for folder in $(ls -dr *)
 do
     log "############$folder#######\n"
-    if [[ -d "$folder" && $folder != "$th_dir" ]]
+    if [[ -d "$folder" && $folder != "$th_dir" && $folder != "$int_dir" ]]
     then
 #string=${string//Ö/&Ouml;}
         log "-----Folder $folder -----\n"
