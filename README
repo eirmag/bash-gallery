@@ -21,6 +21,7 @@ Supported files (case sensitive :S):
     *.jpg
     *.JPG
     *.MOV
+    *.AVI
 
 == Installation ==
 
@@ -28,7 +29,7 @@ On the gallery you want to expose, run the following commands:
     * git init 
     * git remote add origin git://github.com/eirmag/bash-gallery.git
     * git pull origin master 
-    * you can now run the script
+    * ./generate_th_html.sh
 
 Prior to install, modify the important elements:
 
