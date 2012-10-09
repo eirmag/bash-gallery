@@ -46,3 +46,5 @@ To run the script, simply type:
 or
     $ ./generate_th_html.sh
 
+== How to get pictures ==
+To download pictures, in the original size, please construct a link composed of your gallery path + the title of the gallery you want to browse. For instance, if your title is 2042-12-12, and your gallery path is http://gallery.bit, then browsing http://gallery.bit/2042-12-12 should list your files (if your server is configured to do so ;))

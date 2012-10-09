@@ -1,2 +1,3 @@
+2012-10-08: Corrected several concerns regarding current status of the gallery. First, the picture orientation as been corrected while consulting the online gallery. Second, the browsable pictures have been resized to reduce download time. The original pictures are still available, but are more hidden now.
 === 
 2012-09-25: Add fancybox for light slideshow experience, while allowing saving individual images

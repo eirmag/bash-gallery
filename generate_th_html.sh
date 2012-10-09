@@ -150,11 +150,18 @@ echo "<a href='.'>Return to homepage</a><br/>"  >> $dest
 log "$folder, chech existing th for the target:\n"
 for file in  $folder/*.JPG $folder/*.jpg; do
     [[ -e "$file" ]] || continue
+    [[ -r "$file" ]] || continue
 
     file=$(echo $file | recode "utf8..h")
     file_size=$(identify -format "%wx%h" $file)
     file_width=${file_size%x*}
     file_height=${file_size#*x}
+
+    max_size=$file_width
+    if (( $file_height > $max_size ))
+    then
+        max_size=$file_height
+    fi
 
 
     base=`basename "$file" .JPG`
@@ -162,9 +169,9 @@ for file in  $folder/*.JPG $folder/*.jpg; do
     inttarget=$intfolder/$base.JPG
     #if the size of the original file is inferior to the size of the intermediate picture,
     #we don't generate the intermediate picture and display the original picture instead
-    if (( ($file_width <= $int_size) || ($file_height <= $int_size) ))
+    if (( $max_size <= $int_size ))
     then
-        log "file too small\n"
+        log "file $file too small\n"
         inttarget=$file
     fi
 
@@ -317,8 +324,9 @@ do
         fi
 
         cat <<EOF >> $index
-        <h1> <a href="$htmlname">$folder</a> </h1>
+        <div style="display:inline-block;max-width:255px;vertical-align:top;"><h1 style="word-wrap: break-word;"> <a href="$htmlname">$folder</a> </h1>
         $desc
+        </div>
 EOF
 
     fi
