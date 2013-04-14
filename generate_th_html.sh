@@ -7,6 +7,7 @@ th_video_size=400
 int_size=1920
 int_dir=int
 th_dir=th
+js_dir=js
 ga_script=ga.js
 extern_link=links.external
 title_file=title
@@ -72,19 +73,19 @@ fi
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 
 <!-- Add mousewheel plugin (this is optional) -->
-<script type="text/javascript" src="http://fancyapps.com/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+<script type="text/javascript" src="js/jquery.mousewheel-3.0.6.pack.js"></script>
 
 <!-- Add fancyBox -->
-<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/jquery.fancybox.css?v=2.1.0" type="text/css" media="screen" />
-<script type="text/javascript" src="http://fancyapps.com/fancybox/source/jquery.fancybox.pack.js?v=2.1.0"></script>
+<link rel="stylesheet" href="js/jquery.fancybox.css?v=2.1.0" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.fancybox.pack.js?v=2.1.0"></script>
 
 <!-- Optionally add helpers - button, thumbnail and/or media -->
-<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.3" type="text/css" media="screen" />
-<script type="text/javascript" src="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.3"></script>
-<script type="text/javascript" src="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.3"></script>
+<link rel="stylesheet" href="js/jquery.fancybox-buttons.css?v=1.0.3" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.fancybox-buttons.js?v=1.0.3"></script>
+<script type="text/javascript" src="js/jquery.fancybox-media.js?v=1.0.3"></script>
 
-<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.6" type="text/css" media="screen" />
-<script type="text/javascript" src="http://fancyapps.com/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.6"></script>
+<link rel="stylesheet" href="js/jquery.fancybox-thumbs.css?v=1.0.6" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.fancybox-thumbs.js?v=1.0.6"></script>
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -304,7 +305,7 @@ append_header $index
 for folder in $(ls -dr *)
 do
     log "############$folder#######\n"
-    if [[ -d "$folder" && $folder != "$th_dir" && $folder != "$int_dir" ]]
+    if [[ -d "$folder" && $folder != "$th_dir" && $folder != "$int_dir" && $folder != "$js_dir" ]]
     then
 #string=${string//Ö/&Ouml;}
         log "-----Folder $folder -----\n"
