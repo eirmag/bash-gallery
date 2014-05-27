@@ -153,8 +153,8 @@ for file in  $folder/*.JPG $folder/*.jpg; do
     [[ -e "$file" ]] || continue
     [[ -r "$file" ]] || continue
 
-    file=$(echo $file | recode "utf8..h")
-    file_size=$(identify -format "%wx%h" $file)
+    file=$(echo "$file" | recode "utf8..h")
+    file_size=$(identify -format "%wx%h" "$file")
     file_width=${file_size%x*}
     file_height=${file_size#*x}
 
@@ -209,7 +209,7 @@ EOF
 done
 log "\n"
 
-files=$(ls $folder/*.MOV $folder/*.AVI)
+files=$(ls $folder/*.MOV $folder/*.AVI $folder/*.MP4)
 
 if [[ ${#files} -gt 0 ]] #first elem of the array as not a size of zero
 then
