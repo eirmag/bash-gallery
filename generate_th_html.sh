@@ -70,7 +70,7 @@ fi
 <title>$title</title>
 
 <!-- Add jQuery library -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 
 <!-- Add mousewheel plugin (this is optional) -->
 <script type="text/javascript" src="js/jquery.mousewheel-3.0.6.pack.js"></script>
@@ -88,7 +88,7 @@ fi
 <script type="text/javascript" src="js/jquery.fancybox-thumbs.js?v=1.0.6"></script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
+    \$(function() {
         jQuery(".fancybox").fancybox({
         padding    : 0,
         margin     : 20,
